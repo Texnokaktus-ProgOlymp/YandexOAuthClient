@@ -1,3 +1,5 @@
+using YandexOAuthClient.Abstractions;
+
 namespace YandexOAuthClient;
 
 internal class AuthService(ITokenStorage tokenStorage, IOAuthClient oAuthClient, TimeProvider timeProvider) : IAuthService

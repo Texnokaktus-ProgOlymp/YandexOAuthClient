@@ -1,4 +1,4 @@
-namespace YandexOAuthClient;
+namespace YandexOAuthClient.Abstractions;
 
 public interface ITokenStorage
 {

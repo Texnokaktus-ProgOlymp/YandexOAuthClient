@@ -2,6 +2,7 @@ using System.Collections.Specialized;
 using System.Net.Http.Json;
 using System.Web;
 using Microsoft.Extensions.Options;
+using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient;
 
