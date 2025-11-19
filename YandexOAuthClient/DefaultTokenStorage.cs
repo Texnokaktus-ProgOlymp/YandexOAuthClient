@@ -3,7 +3,7 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient;
 
-public class DefaultTokenStorage : ITokenStorage
+internal class DefaultTokenStorage : ITokenStorage
 {
     private static readonly ConcurrentDictionary<string, TokenSet> Storage = new();
     

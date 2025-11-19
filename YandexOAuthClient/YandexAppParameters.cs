@@ -1,6 +1,6 @@
 namespace YandexOAuthClient;
 
-public record YandexAppParameters
+internal record YandexAppParameters
 {
     public required string ClientId { get; init; }
     public required string ClientSecret { get; init; }
