@@ -6,7 +6,7 @@ namespace YandexOAuthClient;
 internal class DefaultTokenStorage : ITokenStorage
 {
     private static readonly ConcurrentDictionary<string, TokenSet> Storage = new();
-    
+
     public Task StoreAccessTokenAsync(string key, TokenSet tokenSet)
     {
         Storage.AddOrUpdate(key, tokenSet, (_, _) => tokenSet);

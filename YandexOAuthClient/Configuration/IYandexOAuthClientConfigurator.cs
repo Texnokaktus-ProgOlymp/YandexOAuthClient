@@ -7,5 +7,7 @@ public interface IYandexOAuthClientConfigurator
 {
     IServiceCollection Services { get; }
     IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>() where TTokenStorage : class, ITokenStorage;
+    IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory) where TTokenStorage : class, ITokenStorage;
     IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration) where TTokenStorage : class, ITokenStorage;
+    IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory, Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration) where TTokenStorage : class, ITokenStorage;
 }

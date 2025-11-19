@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="YandexOAuthClient.TokenStorage.Decorators.DataProtection/YandexOAuthClient.TokenStorage.Decorators.DataProtection.csproj" />
+  <Project Path="YandexOAuthClient.TokenStorage.DistributedCache/YandexOAuthClient.TokenStorage.DistributedCache.csproj" />
   <Project Path="YandexOAuthClient/YandexOAuthClient.csproj" />
 </Solution>

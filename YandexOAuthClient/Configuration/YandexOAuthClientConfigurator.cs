@@ -13,9 +13,22 @@ internal class YandexOAuthClientConfigurator(IServiceCollection services) : IYan
         return this;
     }
 
+    public IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory) where TTokenStorage : class, ITokenStorage
+    {
+        services.AddScoped<ITokenStorage, TTokenStorage>(implementationFactory);
+        return this;
+    }
+
     public IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration) where TTokenStorage : class, ITokenStorage
     {
         services.AddScoped<ITokenStorage, TTokenStorage>();
+        storageConfiguration.Invoke(new YandexOAuthClientTokenStorageConfigurator(services));
+        return this;
+    }
+
+    public IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory, Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration) where TTokenStorage : class, ITokenStorage
+    {
+        services.AddScoped<ITokenStorage, TTokenStorage>(implementationFactory);
         storageConfiguration.Invoke(new YandexOAuthClientTokenStorageConfigurator(services));
         return this;
     }
