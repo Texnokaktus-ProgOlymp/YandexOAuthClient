@@ -1,6 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using YandexOAuthClient.Abstractions;
+using YandexOAuthClient.Configuration;
 
 namespace YandexOAuthClient;
 
@@ -8,7 +8,7 @@ public static class DiExtensions
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddOAuthClient(string configSection = nameof(YandexAppParameters))
+        public IYandexOAuthClientConfigurator AddOAuthClient(string configSection = nameof(YandexAppParameters))
         {
             services.AddHttpClient<IOAuthClient, OAuthClient>(client => client.BaseAddress = new("https://oauth.yandex.ru"));
 
@@ -16,15 +16,7 @@ public static class DiExtensions
 
             services.AddScoped<IAuthService, AuthService>();
 
-            return services;
+            return new YandexOAuthClientConfigurator(services);
         }
-
-        public IServiceCollection StoreWith<TTokenStorage>() where TTokenStorage : class, ITokenStorage =>
-            services.AddScoped<ITokenStorage, TTokenStorage>();
-
-        public IServiceCollection StoreInMemory() => services.StoreWith<DefaultTokenStorage>();
-
-        public IServiceCollection UseStorageDecorator<TDecorator>() where TDecorator : class, ITokenStorage =>
-            services.Decorate<ITokenStorage, TDecorator>();
     }
 }
