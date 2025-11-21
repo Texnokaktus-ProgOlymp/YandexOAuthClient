@@ -6,11 +6,13 @@ internal class AuthService(ITokenStorage tokenStorage, IOAuthClient oAuthClient,
 {
     public string GetOAuthUrl(string? redirectUrl) => oAuthClient.GetOAuthUri(redirectUrl).ToString();
 
-    public async Task AuthorizeAsync(string key, string authCode)
+    public async Task<string> AuthorizeAsync(string key, string authCode)
     {
         var tokenResponse = await oAuthClient.GetAccessTokenAsync(authCode);
         var tokenSet = GetTokenSet(tokenResponse, timeProvider.GetUtcNow());
         await tokenStorage.StoreAccessTokenAsync(key, tokenSet);
+
+        return tokenSet.AccessToken;
     }
 
     public async Task<string?> GetAccessTokenAsync(string key)
