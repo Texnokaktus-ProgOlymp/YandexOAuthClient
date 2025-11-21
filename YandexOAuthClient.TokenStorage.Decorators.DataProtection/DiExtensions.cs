@@ -4,9 +4,9 @@ namespace YandexOAuthClient.TokenStorage.Decorators.DataProtection;
 
 public static class DiExtensions
 {
-    extension(IYandexOAuthClientTokenStorageConfigurator configurator)
+    extension<TKey>(IYandexOAuthClientTokenStorageConfigurator<TKey> configurator)
     {
-        public IYandexOAuthClientTokenStorageConfigurator ProtectStorage() =>
-            configurator.WithDecorator<EncryptedStorageDecorator>();
+        public IYandexOAuthClientTokenStorageConfigurator<TKey> ProtectStorage() =>
+            configurator.WithDecorator<EncryptedStorageDecorator<TKey>>();
     }
 }

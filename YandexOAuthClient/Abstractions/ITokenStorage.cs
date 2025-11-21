@@ -1,7 +1,7 @@
 namespace YandexOAuthClient.Abstractions;
 
-public interface ITokenStorage
+public interface ITokenStorage<in TKey>
 {
-    Task StoreAccessTokenAsync(string key, TokenSet tokenSet);
-    Task<TokenSet?> GetAccessTokenAsync(string key);
+    Task StoreAccessTokenAsync(TKey key, TokenSet tokenSet);
+    Task<TokenSet?> GetAccessTokenAsync(TKey key);
 }

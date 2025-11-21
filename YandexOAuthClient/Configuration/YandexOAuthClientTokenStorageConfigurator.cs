@@ -3,11 +3,11 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient.Configuration;
 
-internal class YandexOAuthClientTokenStorageConfigurator(IServiceCollection services) : IYandexOAuthClientTokenStorageConfigurator
+internal class YandexOAuthClientTokenStorageConfigurator<TKey>(IServiceCollection services) : IYandexOAuthClientTokenStorageConfigurator<TKey>
 {
-    public IYandexOAuthClientTokenStorageConfigurator WithDecorator<TDecorator>() where TDecorator : class, ITokenStorage
+    public IYandexOAuthClientTokenStorageConfigurator<TKey> WithDecorator<TDecorator>() where TDecorator : class, ITokenStorage<TKey>
     {
-        services.Decorate<ITokenStorage, TDecorator>();
+        services.Decorate<ITokenStorage<TKey>, TDecorator>();
         return this;
     }
 }

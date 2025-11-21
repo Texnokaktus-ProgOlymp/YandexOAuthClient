@@ -3,11 +3,11 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient.Configuration;
 
-public interface IYandexOAuthClientConfigurator
+public interface IYandexOAuthClientConfigurator<TKey>
 {
     IServiceCollection Services { get; }
-    IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>() where TTokenStorage : class, ITokenStorage;
-    IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory) where TTokenStorage : class, ITokenStorage;
-    IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration) where TTokenStorage : class, ITokenStorage;
-    IYandexOAuthClientConfigurator WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory, Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration) where TTokenStorage : class, ITokenStorage;
+    IYandexOAuthClientConfigurator<TKey> WithTokenStorage<TTokenStorage>() where TTokenStorage : class, ITokenStorage<TKey>;
+    IYandexOAuthClientConfigurator<TKey> WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory) where TTokenStorage : class, ITokenStorage<TKey>;
+    IYandexOAuthClientConfigurator<TKey> WithTokenStorage<TTokenStorage>(Action<IYandexOAuthClientTokenStorageConfigurator<TKey>> storageConfiguration) where TTokenStorage : class, ITokenStorage<TKey>;
+    IYandexOAuthClientConfigurator<TKey> WithTokenStorage<TTokenStorage>(Func<IServiceProvider, TTokenStorage> implementationFactory, Action<IYandexOAuthClientTokenStorageConfigurator<TKey>> storageConfiguration) where TTokenStorage : class, ITokenStorage<TKey>;
 }

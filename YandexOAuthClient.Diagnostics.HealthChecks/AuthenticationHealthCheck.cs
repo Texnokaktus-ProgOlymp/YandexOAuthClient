@@ -4,10 +4,10 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient.Diagnostics.HealthChecks;
 
-internal class AuthenticationHealthCheck(IAuthService tokenService, IOptions<AuthenticationHealthCheckOptions> options) : IHealthCheck
+internal class AuthenticationHealthCheck(IAuthService<string> tokenService, IOptions<AuthenticationHealthCheckOptions> options) : IHealthCheck
 {
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken) =>
-            await tokenService.GetAccessTokenAsync("DEFAULT") != null
+            await tokenService.GetAccessTokenAsync(options.Value.DefaultTokenKey) != null
                 ? HealthCheckResult.Healthy("Access token persists")
                 : HealthCheckResult.Unhealthy("Application is unauthenticated");
 }

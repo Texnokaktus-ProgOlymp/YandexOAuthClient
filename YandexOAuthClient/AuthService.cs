@@ -2,11 +2,11 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient;
 
-internal class AuthService(ITokenStorage tokenStorage, IOAuthClient oAuthClient, TimeProvider timeProvider) : IAuthService
+internal class AuthService<TKey>(ITokenStorage<TKey> tokenStorage, IOAuthClient oAuthClient, TimeProvider timeProvider) : IAuthService<TKey>
 {
     public string GetOAuthUrl(string? redirectUrl) => oAuthClient.GetOAuthUri(redirectUrl).ToString();
 
-    public async Task<string> AuthorizeAsync(string key, string authCode)
+    public async Task<string> AuthorizeAsync(TKey key, string authCode)
     {
         var tokenResponse = await oAuthClient.GetAccessTokenAsync(authCode);
         var tokenSet = GetTokenSet(tokenResponse, timeProvider.GetUtcNow());
@@ -15,7 +15,7 @@ internal class AuthService(ITokenStorage tokenStorage, IOAuthClient oAuthClient,
         return tokenSet.AccessToken;
     }
 
-    public async Task<string?> GetAccessTokenAsync(string key)
+    public async Task<string?> GetAccessTokenAsync(TKey key)
     {
         if (await tokenStorage.GetAccessTokenAsync(key) is not { } tokenSet)
             return null;
@@ -28,7 +28,7 @@ internal class AuthService(ITokenStorage tokenStorage, IOAuthClient oAuthClient,
         return tokenSet.AccessToken;
     }
 
-    private async Task<string?> RefreshTokenAsync(string key, TokenSet tokenSet)
+    private async Task<string?> RefreshTokenAsync(TKey key, TokenSet tokenSet)
     {
         if (tokenSet.RefreshToken is null)
             return null;

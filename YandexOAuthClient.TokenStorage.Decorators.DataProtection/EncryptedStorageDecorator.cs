@@ -4,12 +4,12 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient.TokenStorage.Decorators.DataProtection;
 
-internal class EncryptedStorageDecorator(ITokenStorage tokenStorage, IDataProtectionProvider dataProtectionProvider) : ITokenStorage
+internal class EncryptedStorageDecorator<TKey>(ITokenStorage<TKey> tokenStorage, IDataProtectionProvider dataProtectionProvider) : ITokenStorage<TKey>
 {
     private readonly IDataProtector _accessTokenProtector = dataProtectionProvider.CreateProtector("oauth:access-token");
     private readonly IDataProtector _refreshTokenProtector = dataProtectionProvider.CreateProtector("oauth:refresh-token");
 
-    public Task StoreAccessTokenAsync(string key, TokenSet tokenSet)
+    public Task StoreAccessTokenAsync(TKey key, TokenSet tokenSet)
     {
         var protectedAccessToken = _accessTokenProtector.Protect(tokenSet.AccessToken);
 
@@ -22,7 +22,7 @@ internal class EncryptedStorageDecorator(ITokenStorage tokenStorage, IDataProtec
         return tokenStorage.StoreAccessTokenAsync(key, protectedSet);
     }
 
-    public async Task<TokenSet?> GetAccessTokenAsync(string key)
+    public async Task<TokenSet?> GetAccessTokenAsync(TKey key)
     {
         if (await tokenStorage.GetAccessTokenAsync(key) is not { } tokenSet)
             return null;

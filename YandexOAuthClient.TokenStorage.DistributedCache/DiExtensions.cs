@@ -6,21 +6,21 @@ namespace YandexOAuthClient.TokenStorage.DistributedCache;
 
 public static class DiExtensions
 {
-    extension(IYandexOAuthClientConfigurator configurator)
+    extension(IYandexOAuthClientConfigurator<string> configurator)
     {
-        public IYandexOAuthClientConfigurator WithDistributedCacheStorage() =>
+        public IYandexOAuthClientConfigurator<string> WithDistributedCacheStorage() =>
             configurator.WithTokenStorage<DistributedCacheTokenStorage>();
 
-        public IYandexOAuthClientConfigurator WithDistributedCacheStorage(Action<DistributedCacheTokenStorageOptions> configureOptions)
+        public IYandexOAuthClientConfigurator<string> WithDistributedCacheStorage<TKey>(Action<DistributedCacheTokenStorageOptions> configureOptions)
         {
             configurator.Services.Configure(configureOptions);
             return configurator.WithTokenStorage<DistributedCacheTokenStorage>();
         }
 
-        public IYandexOAuthClientConfigurator WithDistributedCacheStorage(Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration) =>
+        public IYandexOAuthClientConfigurator<string> WithDistributedCacheStorage(Action<IYandexOAuthClientTokenStorageConfigurator<string>> storageConfiguration) =>
             configurator.WithTokenStorage<DistributedCacheTokenStorage>(storageConfiguration);
 
-        public IYandexOAuthClientConfigurator WithDistributedCacheStorage(Action<DistributedCacheTokenStorageOptions> configureOptions, Action<IYandexOAuthClientTokenStorageConfigurator> storageConfiguration)
+        public IYandexOAuthClientConfigurator<string> WithDistributedCacheStorage(Action<DistributedCacheTokenStorageOptions> configureOptions, Action<IYandexOAuthClientTokenStorageConfigurator<string>> storageConfiguration)
         {
             configurator.Services.Configure(configureOptions);
             return configurator.WithTokenStorage<DistributedCacheTokenStorage>(storageConfiguration);

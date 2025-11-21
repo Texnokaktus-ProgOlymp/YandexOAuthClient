@@ -6,7 +6,7 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient.TokenStorage.DistributedCache;
 
-internal class DistributedCacheTokenStorage(IDistributedCache cache, IOptions<DistributedCacheTokenStorageOptions> options) : ITokenStorage
+internal class DistributedCacheTokenStorage(IDistributedCache cache, IOptions<DistributedCacheTokenStorageOptions> options) : ITokenStorage<string>
 {
     private string GetCacheKey(string tokenKey) =>
         options.Value.KeyPrefix is { } keyPrefix

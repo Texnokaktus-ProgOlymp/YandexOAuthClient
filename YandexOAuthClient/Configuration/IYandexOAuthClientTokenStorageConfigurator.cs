@@ -2,7 +2,7 @@ using YandexOAuthClient.Abstractions;
 
 namespace YandexOAuthClient.Configuration;
 
-public interface IYandexOAuthClientTokenStorageConfigurator
+public interface IYandexOAuthClientTokenStorageConfigurator<out TKey>
 {
-    IYandexOAuthClientTokenStorageConfigurator WithDecorator<TDecorator>() where TDecorator : class, ITokenStorage;
+    IYandexOAuthClientTokenStorageConfigurator<TKey> WithDecorator<TDecorator>() where TDecorator : class, ITokenStorage<TKey>;
 }
