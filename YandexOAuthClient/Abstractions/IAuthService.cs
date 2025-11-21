@@ -1,8 +1,7 @@
 namespace YandexOAuthClient.Abstractions;
 
-public interface IAuthService<in TKey>
+public interface IAuthService
 {
     string GetOAuthUrl(string? redirectUrl);
-    Task<string> AuthorizeAsync(TKey key, string authCode);
-    Task<string?> GetAccessTokenAsync(TKey key);
+    Task<string> GetAccessTokenAsync(string authCode);
 }

@@ -8,13 +8,22 @@ public static class DiExtensions
 {
     extension(IServiceCollection services)
     {
-        public IYandexOAuthClientConfigurator<TKey> AddOAuthClient<TKey>(string configSection = nameof(YandexAppParameters))
+        public IServiceCollection AddOAuthClient(string configSection = nameof(YandexAppParameters))
         {
             services.AddHttpClient<IOAuthClient, OAuthClient>(client => client.BaseAddress = new("https://oauth.yandex.ru"));
 
             services.AddOptions<YandexAppParameters>().BindConfiguration(configSection);
 
-            services.AddScoped<IAuthService<TKey>, AuthService<TKey>>();
+            return services.AddScoped<IAuthService, AuthService>();
+        }
+        
+        public IYandexOAuthClientConfigurator<TKey> AddStoredOAuthClient<TKey>(string configSection = nameof(YandexAppParameters))
+        {
+            services.AddHttpClient<IOAuthClient, OAuthClient>(client => client.BaseAddress = new("https://oauth.yandex.ru"));
+
+            services.AddOptions<YandexAppParameters>().BindConfiguration(configSection);
+
+            services.AddScoped<IStoredAuthService<TKey>, StoredAuthService<TKey>>();
 
             return new YandexOAuthClientConfigurator<TKey>(services);
         }
